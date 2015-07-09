@@ -9,133 +9,133 @@ int fun(int in)
 __kernel void vector_copy(__global int * in, __global int *out,const int iter,const int element) {
     int id = get_global_id(0);
 	
-	if(id==0)
+	if(id%64%64==0)
 		out[id]=fun(in[id]);
-	else if(id==1)
+	else if(id%64%64==1)
 		out[id]=fun(in[id]);
-	else if(id==2)
+	else if(id%64==2)
 		out[id]=fun(in[id]);
-	else if(id==3)
+	else if(id%64==3)
 		out[id]=fun(in[id]);
-	else if(id==4)
+	else if(id%64==4)
 		out[id]=fun(in[id]);
-	else if(id==5)
+	else if(id%64==5)
 		out[id]=fun(in[id]);
-	else if(id==6)
+	else if(id%64==6)
 		out[id]=fun(in[id]);
-	else if(id==7)
+	else if(id%64==7)
 		out[id]=fun(in[id]);
-	else if(id==8)
+	else if(id%64==8)
 		out[id]=fun(in[id]);
-	else if(id==9)
+	else if(id%64==9)
 		out[id]=fun(in[id]);
-	else if(id==10)
+	else if(id%64==10)
 		out[id]=fun(in[id]);
-	else if(id==11)
+	else if(id%64==11)
 		out[id]=fun(in[id]);
-	else if(id==12)
+	else if(id%64==12)
 		out[id]=fun(in[id]);
-	else if(id==13)
+	else if(id%64==13)
 		out[id]=fun(in[id]);
-	else if(id==14)
+	else if(id%64==14)
 		out[id]=fun(in[id]);
-	else if(id==15)
+	else if(id%64==15)
 		out[id]=fun(in[id]);
-	else if(id==16)
+	else if(id%64==16)
 		out[id]=fun(in[id]);
-	else if(id==17)
+	else if(id%64==17)
 		out[id]=fun(in[id]);
-	else if(id==18)
+	else if(id%64==18)
 		out[id]=fun(in[id]);
-	else if(id==19)
+	else if(id%64==19)
 		out[id]=fun(in[id]);
-	else if(id==20)
+	else if(id%64==20)
 		out[id]=fun(in[id]);
-	else if(id==21)
+	else if(id%64==21)
 		out[id]=fun(in[id]);
-	else if(id==22)
+	else if(id%64==22)
 		out[id]=fun(in[id]);
-	else if(id==23)
+	else if(id%64==23)
 		out[id]=fun(in[id]);
-	else if(id==24)
+	else if(id%64==24)
 		out[id]=fun(in[id]);
-	else if(id==25)
+	else if(id%64==25)
 		out[id]=fun(in[id]);
-	else if(id==26)
+	else if(id%64==26)
 		out[id]=fun(in[id]);
-	else if(id==27)
+	else if(id%64==27)
 		out[id]=fun(in[id]);
-	else if(id==28)
+	else if(id%64==28)
 		out[id]=fun(in[id]);
-	else if(id==29)
+	else if(id%64==29)
 		out[id]=fun(in[id]);
-	else if(id==30)
+	else if(id%64==30)
 		out[id]=fun(in[id]);
-	else if(id==31)
+	else if(id%64==31)
 		out[id]=fun(in[id]);
-	else if(id==32)
+	else if(id%64==32)
 		out[id]=fun(in[id]);
-	else if(id==33)
+	else if(id%64==33)
 		out[id]=fun(in[id]);
-	else if(id==34)
+	else if(id%64==34)
 		out[id]=fun(in[id]);
-	else if(id==35)
+	else if(id%64==35)
 		out[id]=fun(in[id]);
-	else if(id==36)
+	else if(id%64==36)
 		out[id]=fun(in[id]);
-	else if(id==37)
+	else if(id%64==37)
 		out[id]=fun(in[id]);
-	else if(id==38)
+	else if(id%64==38)
 		out[id]=fun(in[id]);
-	else if(id==39)
+	else if(id%64==39)
 		out[id]=fun(in[id]);
-	else if(id==40)
+	else if(id%64==40)
 		out[id]=fun(in[id]);
-	else if(id==41)
+	else if(id%64==41)
 		out[id]=fun(in[id]);
-	else if(id==42)
+	else if(id%64==42)
 		out[id]=fun(in[id]);
-	else if(id==43)
+	else if(id%64==43)
 		out[id]=fun(in[id]);
-	else if(id==44)
+	else if(id%64==44)
 		out[id]=fun(in[id]);
-	else if(id==45)
+	else if(id%64==45)
 		out[id]=fun(in[id]);
-	else if(id==46)
+	else if(id%64==46)
 		out[id]=fun(in[id]);
-	else if(id==47)
+	else if(id%64==47)
 		out[id]=fun(in[id]);
-	else if(id==48)
+	else if(id%64==48)
 		out[id]=fun(in[id]);
-	else if(id==49)
+	else if(id%64==49)
 		out[id]=fun(in[id]);
-	else if(id==50)
+	else if(id%64==50)
 		out[id]=fun(in[id]);
-	else if(id==51)
+	else if(id%64==51)
 		out[id]=fun(in[id]);
-	else if(id==52)
+	else if(id%64==52)
 		out[id]=fun(in[id]);
-	else if(id==53)
+	else if(id%64==53)
 		out[id]=fun(in[id]);
-	else if(id==54)
+	else if(id%64==54)
 		out[id]=fun(in[id]);
-	else if(id==55)
+	else if(id%64==55)
 		out[id]=fun(in[id]);
-	else if(id==56)
+	else if(id%64==56)
 		out[id]=fun(in[id]);
-	else if(id==57)
+	else if(id%64==57)
 		out[id]=fun(in[id]);
-	else if(id==58)
+	else if(id%64==58)
 		out[id]=fun(in[id]);
-	else if(id==59)
+	else if(id%64==59)
 		out[id]=fun(in[id]);
-	else if(id==60)
+	else if(id%64==60)
 		out[id]=fun(in[id]);
-	else if(id==61)
+	else if(id%64==61)
 		out[id]=fun(in[id]);
-	else if(id==62)
+	else if(id%64==62)
 		out[id]=fun(in[id]);
-	else if(id==63)
+	else if(id%64==63)
 		out[id]=fun(in[id]);
 }
 

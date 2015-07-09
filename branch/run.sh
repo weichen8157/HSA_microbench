@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TEST_SET=./test_set
+TEST_SET=./hsail
 
 main()	{
 	FILES=$(cd ${TEST_SET} && find *hsail)
@@ -14,6 +14,8 @@ main()	{
 		rm vector_copy.hsail
         rm vector_copy.brig
 		rm log
+
+        mv \&* isa/${file}.isa
 	done
 	cat record
 	rm record
