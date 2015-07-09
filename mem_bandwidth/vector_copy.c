@@ -30,7 +30,7 @@
 
 
 
-#define ITER 1
+#define ITER 10
 #define SIZE 32*1024
 #define ELEMENT SIZE/sizeof(int)
 
@@ -48,7 +48,10 @@ static inline void toc(char *str, struct timespec *t1, struct timespec *t2)
 
     clock_gettime(CLOCK_REALTIME, t2);
     period = t2->tv_nsec - t1->tv_nsec;
-    period += (t2->tv_sec - t1->tv_sec) * 1000000000;
+    if(period>0)
+        period += (t2->tv_sec - t1->tv_sec) * 1000000000;
+    else
+        period += 1000000000 + (t2->tv_sec - t1->tv_sec - 1) * 1000000000;
     printf("\033[1;32m"); //Color Code - Green 
     printf("%s: %0.3lf ms", str, (double)period / 1000000.0);
     printf("\033[0;00m\n\n"); //Terminate Color Code
@@ -283,8 +286,6 @@ int main(int argc, char **argv)
     int element = ELEMENT;
     int iter = ITER;
     
-    
-
     struct __attribute__ ((aligned(16))) args_t {
        	uint64_t global_offset_0;
 	uint64_t global_offset_1;
@@ -360,7 +361,8 @@ int main(int argc, char **argv)
      */
     hsa_signal_value_t value = hsa_signal_wait_acquire(signal, HSA_SIGNAL_CONDITION_LT, 1, UINT64_MAX, HSA_WAIT_STATE_BLOCKED);
     toc("Execution Period", &timer_1, &timer_2);
-	printf("memory size:%d\n\n",SIZE);
+	printf("memory size:%d\n",SIZE);
+    printf("op_count:%d\n",ITER*128*ELEMENT);
     /*
      * Validate the data in the output buffer.
      */

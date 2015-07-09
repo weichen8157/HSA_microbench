@@ -1,0 +1,146 @@
+ShaderType = IL_SHADER_COMPUTE
+TargetChip = t
+
+
+
+; ------------- SC_SRCSHADER Dump ------------------
+SC_SHADERSTATE: u32NumIntVSConst = 0
+SC_SHADERSTATE: u32NumIntPSConst = 0
+SC_SHADERSTATE: u32NumIntGSConst = 0
+SC_SHADERSTATE: u32NumBoolVSConst = 0
+SC_SHADERSTATE: u32NumBoolPSConst = 0
+SC_SHADERSTATE: u32NumBoolGSConst = 0
+SC_SHADERSTATE: u32NumFloatVSConst = 0
+SC_SHADERSTATE: u32NumFloatPSConst = 0
+SC_SHADERSTATE: u32NumFloatGSConst = 0
+u32SCOptions[0] = 0x00000001 SCOption_C0
+u32SCOptions[1] = 0x00000000
+u32SCOptions[2] = 0x04000000 SCOption_R1000_DISABLE_INDEXED_RESOURCE_TYPE_CHECK
+u32SCOptions[3] = 0x00001F00 SCOption_R1100_STORE_COALESCE_WORKAROUND_BUG452151 SCOption_R1000R1100_VCCZ_CLOBBER_WORKAROUND_BUG457939 SCOption_UBTS463396_RANGE_CHECK_FOR_VMEMOP SCOption_UBTS463071_RANGE_CHECK_FOR_SMRD SCOption_R1100_FLAT_SCRATCH_OOB_WORKAROUND_BUG379895
+u32SCOptions[4] = 0x00800000 SCOption_R1000_SGPR_TRAP_REGISTERS
+; -------- Disassembly --------------------
+shader main
+  asic(CI)
+  type(CS)
+
+  s_load_dword  s2, s[0:1], 0x10                        // 000000000000: C0010110
+  s_waitcnt     lgkmcnt(0)                              // 000000000004: BF8C007F
+  v_cmp_lt_i32  s[4:5], s2, 1                           // 000000000008: D1020004 00010202
+  s_mov_b64     s[6:7], exec                            // 000000000010: BE86047E
+  s_andn2_b64   exec, s[6:7], s[4:5]                    // 000000000014: 8AFE0406
+  s_cbranch_execz  label_0041                           // 000000000018: BF88003A
+  s_load_dword  s3, s[0:1], 0x11                        // 00000000001C: C0018111
+  s_load_dwordx2  s[4:5], s[0:1], 0x0e                  // 000000000020: C042010E
+  s_load_dwordx2  s[0:1], s[0:1], 0x0c                  // 000000000024: C040010C
+  s_mov_b64     s[8:9], exec                            // 000000000028: BE88047E
+  s_mov_b64     s[10:11], exec                          // 00000000002C: BE8A047E
+  v_mov_b32     v0, 0                                   // 000000000030: 7E000280
+label_000D:
+  s_waitcnt     lgkmcnt(0)                              // 000000000034: BF8C007F
+  v_cmp_lt_i32  s[12:13], s3, 1                         // 000000000038: D102000C 00010203
+  s_mov_b64     s[14:15], exec                          // 000000000040: BE8E047E
+  s_andn2_b64   exec, s[14:15], s[12:13]                // 000000000044: 8AFE0C0E
+  s_cbranch_execz  label_0036                           // 000000000048: BF880023
+  v_mov_b32     v1, s4                                  // 00000000004C: 7E020204
+  v_readfirstlane_b32  s12, v1                          // 000000000050: 7E180501
+  v_mov_b32     v1, s5                                  // 000000000054: 7E020205
+  v_readfirstlane_b32  s13, v1                          // 000000000058: 7E1A0501
+  s_load_dword  s12, s[12:13], 0x00                     // 00000000005C: C0060D00
+  s_mov_b64     s[16:17], exec                          // 000000000060: BE90047E
+  s_mov_b64     s[18:19], exec                          // 000000000064: BE92047E
+  v_mov_b32     v1, s3                                  // 000000000068: 7E020203
+  v_mov_b32     v2, s0                                  // 00000000006C: 7E040200
+  v_mov_b32     v3, s1                                  // 000000000070: 7E060201
+  s_waitcnt     lgkmcnt(0)                              // 000000000074: BF8C007F
+  v_mov_b32     v4, s12                                 // 000000000078: 7E08020C
+label_001F:
+  v_readfirstlane_b32  s12, v2                          // 00000000007C: 7E180502
+  v_readfirstlane_b32  s13, v3                          // 000000000080: 7E1A0503
+  s_load_dword  s12, s[12:13], 0x00                     // 000000000084: C0060D00
+  s_waitcnt     lgkmcnt(0)                              // 000000000088: BF8C007F
+  v_add_i32     v4, vcc, s12, v4                        // 00000000008C: 4A08080C
+  v_mov_b32     v5, s4                                  // 000000000090: 7E0A0204
+  v_mov_b32     v6, s5                                  // 000000000094: 7E0C0205
+  flat_store_dword  v[5:6], v4                          // 000000000098: DC700000 00000405
+  v_add_i32     v2, s[12:13], v2, 4                     // 0000000000A0: D24A0C02 00010902
+  v_addc_u32    v3, vcc, v3, 0, s[12:13]                // 0000000000A8: D2506A03 00310103
+  v_add_i32     v1, vcc, -1, v1                         // 0000000000B0: 4A0202C1
+  v_cmp_ne_i32  s[12:13], v1, 0                         // 0000000000B4: D10A000C 00010101
+  s_mov_b64     s[20:21], exec                          // 0000000000BC: BE94047E
+  s_andn2_b64   exec, s[20:21], s[12:13]                // 0000000000C0: 8AFE0C14
+  s_cbranch_execz  label_0034                           // 0000000000C4: BF880002
+  s_andn2_b64   s[18:19], s[18:19], exec                // 0000000000C8: 8A927E12
+  s_cbranch_scc0  label_0036                            // 0000000000CC: BF840002
+label_0034:
+  s_and_b64     exec, s[20:21], s[18:19]                // 0000000000D0: 87FE1214
+  s_branch      label_001F                              // 0000000000D4: BF82FFE9
+label_0036:
+  s_mov_b64     exec, s[14:15]                          // 0000000000D8: BEFE040E
+  v_add_i32     v0, vcc, 1, v0                          // 0000000000DC: 4A000081
+  v_cmp_ne_i32  s[12:13], v0, s2                        // 0000000000E0: D10A000C 00000500
+  s_mov_b64     s[14:15], exec                          // 0000000000E8: BE8E047E
+  s_andn2_b64   exec, s[14:15], s[12:13]                // 0000000000EC: 8AFE0C0E
+  s_cbranch_execz  label_003F                           // 0000000000F0: BF880002
+  s_andn2_b64   s[10:11], s[10:11], exec                // 0000000000F4: 8A8A7E0A
+  s_cbranch_scc0  label_0041                            // 0000000000F8: BF840002
+label_003F:
+  s_and_b64     exec, s[14:15], s[10:11]                // 0000000000FC: 87FE0A0E
+  s_branch      label_000D                              // 000000000100: BF82FFCC
+label_0041:
+  s_endpgm                                              // 000000000104: BF810000
+end
+
+; ----------------- CS Data ------------------------
+
+codeLenInByte        = 520 bytes;
+objectHeaderByteSize = 256 bytes;
+
+; launchModeFlags    = 0x00000200
+isAql                = TRUE;
+
+userElementCount     = 0;
+extUserElementCount  = 0;
+NumVgprs             = 7;
+NumSgprs             = 24;
+FloatMode            = 192;
+IeeeMode             = 1;
+FlatPtr32            = 0;
+ScratchSize          = 0 dwords/thread;
+LDSByteSize          = 0 bytes/workgroup (compile time only);
+ScratchWaveOffsetReg = s65535;
+; texSamplerUsage         = 0x00000000
+; constBufUsage           = 0x00000000
+
+;COMPUTE_PGM_RSRC2       = 0x00000004
+COMPUTE_PGM_RSRC2:USER_SGPR      = 2
+; ---------------------------- AMD Code Descriptor ----------------------------
+amd_kernel_code_version_major                  = 1
+amd_kernel_code_version_minor                  = 0
+amd_machine_kind                               = AMD_MACHINE_KIND_AMDGPU
+amd_machine_version_major                      = 0
+amd_machine_version_minor                      = 0
+amd_machine_version_stepping                   = 0
+kernel_code_entry_byte_offset                  = 256
+max_scratch_backing_memory_byte_size           = 0
+; compute_pgm_rsrc1:
+  granulated_workitem_vgpr_count                       = 1
+  granulated_wavefront_sgpr_count                      = 2
+  priority                                             = 0
+  float_mode_round_32                                  = ROUND_TO_NEAREST_EVEN
+  float_mode_round_16_64                               = ROUND_TO_NEAREST_EVEN
+  float_mode_denorm_32                                 = FLUSH_SOURCE_OUTPUT
+  float_mode_denorm_16_64                              = FLUSH_NONE
+  enable_ieee_mode                                     = TRUE
+; compute_pgm_rsrc2:
+  user_sgpr_count                                      = 2
+  enable_vgpr_workitem_id                              = X
+  granulated_lds_size                                  = 0
+enable_sgpr_kernarg_segment_ptr                = TRUE
+private_element_size                           = DWORD (4 bytes)
+is_ptr64                                       = TRUE
+gds_segment_byte_size                          = 0
+kernarg_segment_byte_size                      = 72
+wavefront_sgpr_count                           = 24
+workitem_vgpr_count                            = 7
+kernarg_segment_alignment                      = 3
+wavefront_size                                 = 6
