@@ -12,7 +12,8 @@ main()	{
         echo ${file}>>record
 		grep -r "Execution Period*" log >> record
         grep -r "memory size*" log >> record
-        grep -r "op_count**" log >> record 
+        grep -r "op_count**" log >> record
+        grep -r "nano*" log >> record
         echo -e "" >> record
 		rm vector_copy.hsail
         rm vector_copy.brig

@@ -42,7 +42,7 @@ static inline void tic(struct timespec *t1)
     clock_gettime(CLOCK_REALTIME, t1);
 }
 
-static inline void toc(char *str, struct timespec *t1, struct timespec *t2)
+static inline double toc(char *str, struct timespec *t1, struct timespec *t2)
 {
     long period = 0;
 
@@ -55,6 +55,7 @@ static inline void toc(char *str, struct timespec *t1, struct timespec *t2)
     printf("\033[1;32m"); //Color Code - Green 
     printf("%s: %0.3lf ms", str, (double)period / 1000000.0);
     printf("\033[0;00m\n\n"); //Terminate Color Code
+    return period;
 }
 
 #define check(msg, status) \
@@ -139,7 +140,7 @@ static hsa_status_t get_kernarg_memory_region(hsa_region_t region, void* data) {
 int main(int argc, char **argv)
 {
     struct timespec timer_1, timer_2;
-
+    double nano;
     hsa_status_t err;
 
     err = hsa_init();
@@ -273,6 +274,9 @@ int main(int argc, char **argv)
      */
     int* in=(int*)malloc(SIZE);
     int i;
+    /*
+     * Set in
+     */
     for(i=0;i<ELEMENT;i++)
         in[i]=i+1;
     err=hsa_memory_register(in, SIZE);
@@ -360,15 +364,19 @@ int main(int argc, char **argv)
      * Wait on the dispatch completion signal until the kernel is finished.
      */
     hsa_signal_value_t value = hsa_signal_wait_acquire(signal, HSA_SIGNAL_CONDITION_LT, 1, UINT64_MAX, HSA_WAIT_STATE_BLOCKED);
-    toc("Execution Period", &timer_1, &timer_2);
+    
+    nano = toc("Execution Period", &timer_1, &timer_2);
 	printf("memory size:%d\n",SIZE);
     printf("op_count:%d\n",ITER*128*ELEMENT);
+    printf("nanosec/op= %0.3lfns\n",(double)nano/(double)(ITER*128*ELEMENT));
+     
     /*
      * Validate the data in the output buffer.
      */
 
     int valid=1;
-    int fail_index=0;
+//    int fail_index=0;
+
 //global_ld
 /*
     int j,sum;
@@ -385,16 +393,16 @@ int main(int argc, char **argv)
     if(out[0]!=0)
             valid = 0;                  
 */
-
+/*
     if(out[0]==0)
             valid = 0;    
 
     if(valid) {
-        printf("Passed validation.\n");
+        printf("PASSED VALIDATION.\n");
     } else {
         printf("VALIDATION FAILED!\nBad index: %d\n", fail_index);
     }
-		
+*/		
     /*
      * Cleanup all allocated resources.
      */
