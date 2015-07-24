@@ -46,7 +46,7 @@ label_0013:
   v_mov_b32     v3, 0                                   // 000000000050: 7E060280
   s_mov_b64     s[8:9], exec                            // 000000000054: BE88047E
   s_mov_b64     s[16:17], exec                          // 000000000058: BE90047E
-  v_mov_b32     v4, 0x00002000                          // 00000000005C: 7E0802FF 00002000
+  v_mov_b32     v4, 0x00000100                          // 00000000005C: 7E0802FF 00000100
   s_nop         0x0000                                  // 000000000064: BF800000
 label_001A:
   buffer_load_dword  v5, v2, s[0:3], s6 offen           // 000000000068: E0301000 06000502
@@ -356,7 +356,7 @@ NumSgprs             = 24;
 FloatMode            = 192;
 IeeeMode             = 1;
 FlatPtr32            = 0;
-ScratchSize          = 8192 dwords/thread;
+ScratchSize          = 256 dwords/thread;
 LDSByteSize          = 0 bytes/workgroup (compile time only);
 ScratchWaveOffsetReg = s65535;
 ; texSamplerUsage         = 0x00000000
@@ -392,7 +392,7 @@ enable_sgpr_private_segment_buffer             = TRUE
 enable_sgpr_kernarg_segment_ptr                = TRUE
 private_element_size                           = DWORD (4 bytes)
 is_ptr64                                       = TRUE
-workitem_private_segment_byte_size             = 32768
+workitem_private_segment_byte_size             = 1024
 gds_segment_byte_size                          = 0
 kernarg_segment_byte_size                      = 72
 wavefront_sgpr_count                           = 24

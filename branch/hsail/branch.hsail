@@ -1,4 +1,4 @@
-module &_tmp_cloc4526_branch_opt_bc:1:0:$full:$large:$default;
+module &_tmp_cloc2995_branch_opt_bc:1:0:$full:$large:$default;
 extension "amd:gcn";
 extension "IMAGE";
 

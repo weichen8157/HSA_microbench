@@ -9,9 +9,9 @@ int fun(int in)
 __kernel void vector_copy(__global int * in, __global int *out,const int iter,const int element) {
     int id = get_global_id(0);
 	
-	if(id%64%64==0)
+	if(id%64==0)
 		out[id]=fun(in[id]);
-	else if(id%64%64==1)
+	else if(id%64==1)
 		out[id]=fun(in[id]);
 	else if(id%64==2)
 		out[id]=fun(in[id]);

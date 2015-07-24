@@ -256,6 +256,7 @@ int main(int argc, char **argv)
 
     err = hsa_executable_symbol_get_info(symbol, HSA_EXECUTABLE_SYMBOL_INFO_KERNEL_OBJECT, &kernel_object);
     check(Extracting the symbol from the executable, err);
+    
     err = hsa_executable_symbol_get_info(symbol, HSA_EXECUTABLE_SYMBOL_INFO_KERNEL_KERNARG_SEGMENT_SIZE, &kernarg_segment_size);
     check(Extracting the kernarg segment size from the executable, err);
     err = hsa_executable_symbol_get_info(symbol, HSA_EXECUTABLE_SYMBOL_INFO_KERNEL_GROUP_SEGMENT_SIZE, &group_segment_size);
@@ -367,7 +368,7 @@ int main(int argc, char **argv)
     
     nano = toc("Execution Period", &timer_1, &timer_2);
 	printf("memory size:%d\n",SIZE);
-    printf("op_count:%d\n",ITER*128*ELEMENT);
+    printf("op_count:%ld\n",ITER*128*ELEMENT);
     printf("nanosec/op= %0.3lfns\n",(double)nano/(double)(ITER*128*ELEMENT));
      
     /*
