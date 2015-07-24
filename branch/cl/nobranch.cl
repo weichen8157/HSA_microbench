@@ -1,4 +1,4 @@
-int fun(int in)
+int fun(int * in)
 {
 	int i,sum;
 	for(i=0;i<1000;i++)

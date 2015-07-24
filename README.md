@@ -11,8 +11,8 @@ This is a micro benchmark for HSA platform.
 3. local_ld problems.
 
 #Result
-1. Branch:Penalty of branch obviously caused only when local worksize is small.
-* Change `LOCAL_SIZE` bigger then see the result.
+
+
 
 
 

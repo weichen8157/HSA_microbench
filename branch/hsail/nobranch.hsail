@@ -1,4 +1,4 @@
-module &_tmp_cloc4551_nobranch_opt_bc:1:0:$full:$large:$default;
+module &_tmp_cloc3321_nobranch_opt_bc:1:0:$full:$large:$default;
 extension "amd:gcn";
 extension "IMAGE";
 
@@ -53,6 +53,31 @@ prog kernel &__OpenCL_vector_copy_kernel(
 	pragma "AMD RTI", "ARGEND:__OpenCL_vector_copy_kernel";
 
 @__OpenCL_vector_copy_kernel_entry:
-	// BB#0:                                // %fun.exit
+	// BB#0:
+	workitemabsid_u32	$s0, 0;
+	cvt_u64_u32	$d0, $s0;
+	ld_kernarg_align(8)_width(all)_u64	$d1, [%__global_offset_0];
+	add_u64	$d0, $d0, $d1;
+	shl_u64	$d0, $d0, 32;
+	shr_s64	$d0, $d0, 32;
+	shl_u64	$d0, $d0, 2;
+	ld_kernarg_align(8)_width(all)_u64	$d1, [%in];
+	add_u64	$d1, $d1, $d0;
+	ld_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, 1000;
+	ld_kernarg_align(8)_width(all)_u64	$d1, [%out];
+	cvt_s64_s32	$d2, $s1;
+
+@BB0_1:
+	shl_u32	$s1, $s1, 2;
+	cvt_u64_u32	$d3, $s1;
+	add_u64	$d3, $d2, $d3;
+	cvt_u32_u64	$s1, $d3;
+	add_u32	$s0, $s0, 4294967295;
+	cmp_ne_b1_s32	$c0, $s0, 0;
+	cbr_b1	$c0, @BB0_1;
+	// BB#2:                                // %fun.exit
+	add_u64	$d0, $d1, $d0;
+	st_global_align(4)_u32	$s1, [$d0];
 	ret;
 };

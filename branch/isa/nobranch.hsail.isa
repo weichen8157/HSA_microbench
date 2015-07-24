@@ -23,12 +23,56 @@ shader main
   asic(CI)
   type(CS)
 
-  s_endpgm                                              // 000000000000: BF810000
+  s_load_dword  s0, s[0:1], 0x01                        // 000000000000: C0000101
+  s_waitcnt     lgkmcnt(0)                              // 000000000004: BF8C007F
+  s_bfe_u32     s0, s0, 0x00100000                      // 000000000008: 9380FF00 00100000
+  s_mul_i32     s0, s0, s4                              // 000000000010: 93000400
+  v_add_i32     v0, s[4:5], s0, v0                      // 000000000014: D24A0400 00020000
+  s_load_dwordx2  s[0:1], s[2:3], 0x00                  // 00000000001C: C0400300
+  s_waitcnt     lgkmcnt(0)                              // 000000000020: BF8C007F
+  v_add_i32     v0, s[4:5], v0, s0                      // 000000000024: D24A0400 00000100
+  v_mov_b32     v1, s1                                  // 00000000002C: 7E020201
+  v_addc_u32    v1, vcc, 0, v1, s[4:5]                  // 000000000030: D2506A01 00120280
+  v_lshl_b64    v[0:1], v[0:1], 32                      // 000000000038: D2C20000 00014100
+  v_ashr_i64    v[0:1], v[0:1], 32                      // 000000000040: D2C60000 00014100
+  v_lshl_b64    v[0:1], v[0:1], 2                       // 000000000048: D2C20000 00010500
+  s_load_dwordx2  s[0:1], s[2:3], 0x0c                  // 000000000050: C040030C
+  s_waitcnt     lgkmcnt(0)                              // 000000000054: BF8C007F
+  v_add_i32     v2, s[4:5], s0, v0                      // 000000000058: D24A0402 00020000
+  v_mov_b32     v3, s1                                  // 000000000060: 7E060201
+  v_addc_u32    v3, vcc, v3, v1, s[4:5]                 // 000000000064: D2506A03 00120303
+  flat_load_dword  v2, v[2:3]                           // 00000000006C: DC300000 02000002
+  s_load_dwordx2  s[0:1], s[2:3], 0x0e                  // 000000000074: C040030E
+  s_mov_b64     s[2:3], exec                            // 000000000078: BE82047E
+  s_mov_b64     s[4:5], exec                            // 00000000007C: BE84047E
+  s_waitcnt     vmcnt(0) & lgkmcnt(0)                   // 000000000080: BF8C0070
+  v_mov_b32     v3, v2                                  // 000000000084: 7E060302
+  v_mov_b32     v4, 0x000003e8                          // 000000000088: 7E0802FF 000003E8
+label_0024:
+  v_lshlrev_b32  v3, 2, v3                              // 000000000090: 34060682
+  v_add_i32     v3, s[6:7], v2, v3                      // 000000000094: D24A0603 00020702
+  v_add_i32     v4, vcc, -1, v4                         // 00000000009C: 4A0808C1
+  v_cmp_ne_i32  s[6:7], v4, 0                           // 0000000000A0: D10A0006 00010104
+  s_mov_b64     s[8:9], exec                            // 0000000000A8: BE88047E
+  s_andn2_b64   exec, s[8:9], s[6:7]                    // 0000000000AC: 8AFE0608
+  s_cbranch_execz  label_002F                           // 0000000000B0: BF880002
+  s_andn2_b64   s[4:5], s[4:5], exec                    // 0000000000B4: 8A847E04
+  s_cbranch_scc0  label_0031                            // 0000000000B8: BF840002
+label_002F:
+  s_and_b64     exec, s[8:9], s[4:5]                    // 0000000000BC: 87FE0408
+  s_branch      label_0024                              // 0000000000C0: BF82FFF3
+label_0031:
+  s_mov_b64     exec, s[2:3]                            // 0000000000C4: BEFE0402
+  v_add_i32     v0, s[2:3], s0, v0                      // 0000000000C8: D24A0200 00020000
+  v_mov_b32     v2, s1                                  // 0000000000D0: 7E040201
+  v_addc_u32    v1, vcc, v2, v1, s[2:3]                 // 0000000000D4: D2506A01 000A0302
+  flat_store_dword  v[0:1], v3                          // 0000000000DC: DC700000 00000300
+  s_endpgm                                              // 0000000000E4: BF810000
 end
 
 ; ----------------- CS Data ------------------------
 
-codeLenInByte        = 260 bytes;
+codeLenInByte        = 488 bytes;
 objectHeaderByteSize = 256 bytes;
 
 ; launchModeFlags    = 0x00000200
@@ -36,8 +80,8 @@ isAql                = TRUE;
 
 userElementCount     = 0;
 extUserElementCount  = 0;
-NumVgprs             = 1;
-NumSgprs             = 2;
+NumVgprs             = 5;
+NumSgprs             = 12;
 FloatMode            = 192;
 IeeeMode             = 1;
 FlatPtr32            = 0;
@@ -47,8 +91,9 @@ ScratchWaveOffsetReg = s65535;
 ; texSamplerUsage         = 0x00000000
 ; constBufUsage           = 0x00000000
 
-;COMPUTE_PGM_RSRC2       = 0x00000000
-COMPUTE_PGM_RSRC2:USER_SGPR      = 0
+;COMPUTE_PGM_RSRC2       = 0x00000088
+COMPUTE_PGM_RSRC2:USER_SGPR      = 4
+COMPUTE_PGM_RSRC2:TGID_X_EN      = 1
 ; ---------------------------- AMD Code Descriptor ----------------------------
 amd_kernel_code_version_major                  = 1
 amd_kernel_code_version_minor                  = 0
@@ -59,8 +104,8 @@ amd_machine_version_stepping                   = 0
 kernel_code_entry_byte_offset                  = 256
 max_scratch_backing_memory_byte_size           = 0
 ; compute_pgm_rsrc1:
-  granulated_workitem_vgpr_count                       = 0
-  granulated_wavefront_sgpr_count                      = 0
+  granulated_workitem_vgpr_count                       = 1
+  granulated_wavefront_sgpr_count                      = 1
   priority                                             = 0
   float_mode_round_32                                  = ROUND_TO_NEAREST_EVEN
   float_mode_round_16_64                               = ROUND_TO_NEAREST_EVEN
@@ -68,14 +113,17 @@ max_scratch_backing_memory_byte_size           = 0
   float_mode_denorm_16_64                              = FLUSH_NONE
   enable_ieee_mode                                     = TRUE
 ; compute_pgm_rsrc2:
-  user_sgpr_count                                      = 0
+  user_sgpr_count                                      = 4
+  enable_sgpr_workgroup_id_x                           = TRUE
   enable_vgpr_workitem_id                              = X
   granulated_lds_size                                  = 0
+enable_sgpr_dispatch_ptr                       = TRUE
+enable_sgpr_kernarg_segment_ptr                = TRUE
 private_element_size                           = DWORD (4 bytes)
 is_ptr64                                       = TRUE
 gds_segment_byte_size                          = 0
 kernarg_segment_byte_size                      = 72
-wavefront_sgpr_count                           = 2
-workitem_vgpr_count                            = 1
+wavefront_sgpr_count                           = 12
+workitem_vgpr_count                            = 5
 kernarg_segment_alignment                      = 3
 wavefront_size                                 = 6
