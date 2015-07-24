@@ -48,7 +48,7 @@ tic(&timer_1);
     }
 nano = toc("Execution Period", &timer_1, &timer_2);
 
-    printf("enqueue kernel=%d times\nout=%d\nin=%d\n",ITER,out[0],in[0]);
+    printf("enqueue kernel=%d times\nout=%d\n",ITER,out[0],in[0]);
     if(out[0]==ITER)
          printf("VALID\n");
     else

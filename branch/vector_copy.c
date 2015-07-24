@@ -35,7 +35,7 @@
 #define ELEMENT SIZE/sizeof(int)
 
 #define GLOBAL_SIZE 32*1024*1024
-#define LOCAL_SIZE 64
+#define LOCAL_SIZE 1
 
 static inline void tic(struct timespec *t1)
 {
