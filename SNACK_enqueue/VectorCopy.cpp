@@ -4,7 +4,6 @@
 #include <libelf.h>
 #include <iostream>
 #include "vector_copy.h"
-#define _POSIX_C_SOURCE 199309L
 #include <time.h>
 
 #define ITER 10000
@@ -48,7 +47,7 @@ tic(&timer_1);
     }
 nano = toc("Execution Period", &timer_1, &timer_2);
 
-    printf("enqueue kernel=%d times\nout=%d\n",ITER,out[0],in[0]);
+    printf("enqueue kernel=%d times\nout=%d\n",ITER,out[0]);
     if(out[0]==ITER)
          printf("VALID\n");
     else

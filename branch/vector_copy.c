@@ -31,10 +31,10 @@
 
 
 #define ITER 1
-#define SIZE 32*1024*1024
+#define SIZE 64*1024*1024
 #define ELEMENT SIZE/sizeof(int)
 
-#define GLOBAL_SIZE 32*1024
+#define GLOBAL_SIZE 64*1024
 #define LOCAL_SIZE 64 
 
 static inline void tic(struct timespec *t1)

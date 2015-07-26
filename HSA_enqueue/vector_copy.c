@@ -27,9 +27,13 @@
 #include <string.h>
 #include "hsa.h"
 #include "hsa_ext_finalize.h"
-#include <unistd.h>
 
-#define ITER 10000
+
+
+#define ITER 10
+#define SIZE 1024*1024 
+#define ELEMENT SIZE/sizeof(int)
+
 #define GLOBAL_SIZE 1 
 #define LOCAL_SIZE 1
 
@@ -268,17 +272,14 @@ int main(int argc, char **argv)
     /*
      * Allocate and initialize the kernel arguments and data.
      */
-    int* in=(int*)malloc(sizeof(int));
-    memset(in, 0, sizeof(int));
-    //int i;
+    int* in=(int*)malloc(SIZE);
+    int i;
     /*
      * Set in
      */
-    /*
     for(i=0;i<ELEMENT;i++)
         in[i]=i+1;
-    */
-    err=hsa_memory_register(in, sizeof(int));
+    err=hsa_memory_register(in, SIZE);
     check(Registering argument memory for input parameter, err);
 
     int* out=(int*)malloc(sizeof(int));
@@ -286,6 +287,8 @@ int main(int argc, char **argv)
     err=hsa_memory_register(out, sizeof(int));
     check(Registering argument memory for output parameter, err);
     
+    int element = ELEMENT;
+    int iter = ITER;
     
     struct __attribute__ ((aligned(16))) args_t {
        	uint64_t global_offset_0;
@@ -296,10 +299,15 @@ int main(int argc, char **argv)
 	uint64_t aqlwrap_pointer;
         void* in;
         void* out;
+        int iter;
+        int element;
     } args;
     memset(&args, 0, sizeof(args));
     args.in=in;
     args.out=out;
+    args.element=element;
+    args.iter=iter;
+
     /*
      * Find a memory region that supports kernel arguments.
      */
@@ -316,12 +324,7 @@ int main(int argc, char **argv)
     err = hsa_memory_allocate(kernarg_region, kernarg_segment_size, &kernarg_address);
     check(Allocating kernel argument memory buffer, err);
     memcpy(kernarg_address, &args, sizeof(args));
-
-tic(&timer_1);
-    int z;
-    for(z=0;z<ITER;z++){
-
-         
+ 
     /*
      * Obtain the current queue write index.
      */
@@ -331,7 +334,7 @@ tic(&timer_1);
      * Write the aql packet at the calculated queue index address.
      */
     const uint32_t queueMask = queue->size - 1;
- hsa_kernel_dispatch_packet_t* dispatch_packet = &(((hsa_kernel_dispatch_packet_t*)(queue->base_address))[index&queueMask]);
+    hsa_kernel_dispatch_packet_t* dispatch_packet = &(((hsa_kernel_dispatch_packet_t*)(queue->base_address))[index&queueMask]);
 
     dispatch_packet->header |= HSA_FENCE_SCOPE_SYSTEM << HSA_PACKET_HEADER_ACQUIRE_FENCE_SCOPE;
     dispatch_packet->header |= HSA_FENCE_SCOPE_SYSTEM << HSA_PACKET_HEADER_RELEASE_FENCE_SCOPE;
@@ -348,30 +351,24 @@ tic(&timer_1);
     dispatch_packet->private_segment_size = private_segment_size;
     dispatch_packet->group_segment_size = group_segment_size;
     __atomic_store_n((uint8_t*)(&dispatch_packet->header), (uint8_t)HSA_PACKET_TYPE_KERNEL_DISPATCH, __ATOMIC_RELEASE);
-    
-    
+
     /*
      * Increment the write index and ring the doorbell to dispatch the kernel.
      */
+    tic(&timer_1);
     hsa_queue_store_write_index_relaxed(queue, index+1);
     hsa_signal_store_relaxed(queue->doorbell_signal, index);
-    //check(Dispatching the kernel, err);
+    check(Dispatching the kernel, err);
 
     /*
      * Wait on the dispatch completion signal until the kernel is finished.
      */
     hsa_signal_value_t value = hsa_signal_wait_acquire(signal, HSA_SIGNAL_CONDITION_LT, 1, UINT64_MAX, HSA_WAIT_STATE_BLOCKED);
     
-    }
     nano = toc("Execution Period", &timer_1, &timer_2);
-
-    //sleep(10);
-    
-    printf("enqueue kernel=%d times \nout=%d\n",ITER,out[0]);
-    if(out[0]==ITER)
-         printf("VALID\n");
-    else
-         printf("INVALID\n");
+	printf("memory size:%d\n",SIZE);
+    printf("op_count:%ld\n",ITER*128*ELEMENT);
+    printf("nanosec/op= %0.3lfns\n",(double)nano/(double)(ITER*128*ELEMENT));
 
     /*
      * Validate the data in the output buffer.

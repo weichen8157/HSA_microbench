@@ -1,22 +1,32 @@
 #!/bin/bash
 
-#  Set HSA Environment variables
-[ -z $HSA_RUNTIME_PATH ] && HSA_RUNTIME_PATH=/opt/hsa
-[ -z $HSA_LLVM_PATH ] && HSA_LLVM_PATH=/opt/amd/cloc/bin
-export LD_LIBRARY_PATH=$HSA_RUNTIME_PATH/lib
-# Compile accelerated functions
-echo 
-if [ -f vector_copy.o ] ; then rm vector_copy.o ; fi
-echo $HSA_LLVM_PATH/snack.sh -q -c vector_copy.cl 
-$HSA_LLVM_PATH/snack.sh -q -c vector_copy.cl 
+HSA_RUNTIME_PATH=/opt/hsa
+HSA_LLVM_PATH=/opt/amd/cloc/bin
+CL=./cl
 
-# Compile Main and link to accelerated functions in vector_copy.o
-echo 
-if [ -f VectorCopy ] ; then rm VectorCopy ; fi
-echo "g++ -o VectorCopy vector_copy.o VectorCopy.cpp -L $HSA_RUNTIME_PATH/lib -lhsa-runtime64 "
-g++ -o VectorCopy vector_copy.o VectorCopy.cpp -L $HSA_RUNTIME_PATH/lib -lhsa-runtime64 
+main()	{
+	FILES=$(cd ${CL} && find *cl)
+	
+	for file in ${FILES};do
+		cp ${CL}/${file} ./vector_copy.cl
+		$HSA_LLVM_PATH/snack.sh -q -c vector_copy.cl
+        g++ -o vector_copy vector_copy.o VectorCopy.cpp -L $HSA_RUNTIME_PATH/lib -lhsa-runtime64
+        ./vector_copy >> log
+        echo ${file}>>record
+		grep -r "Execution Period*" log >> record
+        grep -r "enqueue kernel=*" log >> record
+        grep -r "out=*" log >> record
+        grep -r "*VALID*" log >> record
 
-#  Execute
-echo
-echo ./VectorCopy
-./VectorCopy
+        sleep 1
+        echo -e "" >> record
+		rm vector_copy.cl
+        rm vector_copy.h
+        rm vector_copy.o
+		rm log
+        mv \&* isa/${file}.isa
+	done
+	cat record
+	rm record
+}
+main 
