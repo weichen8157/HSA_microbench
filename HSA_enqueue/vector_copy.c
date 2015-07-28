@@ -30,7 +30,7 @@
 
 
 
-#define ITER 10
+#define ITER 10000
 #define SIZE 1024*1024 
 #define ELEMENT SIZE/sizeof(int)
 
@@ -273,17 +273,15 @@ int main(int argc, char **argv)
      * Allocate and initialize the kernel arguments and data.
      */
     int* in=(int*)malloc(SIZE);
-    int i;
     /*
      * Set in
      */
-    for(i=0;i<ELEMENT;i++)
-        in[i]=i+1;
+    memset(in, 0, SIZE);
     err=hsa_memory_register(in, SIZE);
     check(Registering argument memory for input parameter, err);
 
-    int* out=(int*)malloc(sizeof(int));
-    memset(out, 0, sizeof(int));
+    int* out=(int*)malloc(SIZE);
+    memset(out, 0, SIZE);
     err=hsa_memory_register(out, sizeof(int));
     check(Registering argument memory for output parameter, err);
     
@@ -324,57 +322,63 @@ int main(int argc, char **argv)
     err = hsa_memory_allocate(kernarg_region, kernarg_segment_size, &kernarg_address);
     check(Allocating kernel argument memory buffer, err);
     memcpy(kernarg_address, &args, sizeof(args));
- 
-    /*
-     * Obtain the current queue write index.
-     */
-    uint64_t index = hsa_queue_load_write_index_relaxed(queue);
-
-    /*
-     * Write the aql packet at the calculated queue index address.
-     */
-    const uint32_t queueMask = queue->size - 1;
-    hsa_kernel_dispatch_packet_t* dispatch_packet = &(((hsa_kernel_dispatch_packet_t*)(queue->base_address))[index&queueMask]);
-
-    dispatch_packet->header |= HSA_FENCE_SCOPE_SYSTEM << HSA_PACKET_HEADER_ACQUIRE_FENCE_SCOPE;
-    dispatch_packet->header |= HSA_FENCE_SCOPE_SYSTEM << HSA_PACKET_HEADER_RELEASE_FENCE_SCOPE;
-    dispatch_packet->setup  |= 1 << HSA_KERNEL_DISPATCH_PACKET_SETUP_DIMENSIONS;
-    dispatch_packet->workgroup_size_x = (uint16_t)LOCAL_SIZE;
-    dispatch_packet->workgroup_size_y = (uint16_t)1;
-    dispatch_packet->workgroup_size_z = (uint16_t)1;
-    dispatch_packet->grid_size_x = (uint32_t) (GLOBAL_SIZE);
-    dispatch_packet->grid_size_y = 1;
-    dispatch_packet->grid_size_z = 1;
-    dispatch_packet->completion_signal = signal;
-    dispatch_packet->kernel_object = kernel_object;
-    dispatch_packet->kernarg_address = (void*) kernarg_address;
-    dispatch_packet->private_segment_size = private_segment_size;
-    dispatch_packet->group_segment_size = group_segment_size;
-    __atomic_store_n((uint8_t*)(&dispatch_packet->header), (uint8_t)HSA_PACKET_TYPE_KERNEL_DISPATCH, __ATOMIC_RELEASE);
-
-    /*
-     * Increment the write index and ring the doorbell to dispatch the kernel.
-     */
-    tic(&timer_1);
-    hsa_queue_store_write_index_relaxed(queue, index+1);
-    hsa_signal_store_relaxed(queue->doorbell_signal, index);
-    check(Dispatching the kernel, err);
-
-    /*
-     * Wait on the dispatch completion signal until the kernel is finished.
-     */
-    hsa_signal_value_t value = hsa_signal_wait_acquire(signal, HSA_SIGNAL_CONDITION_LT, 1, UINT64_MAX, HSA_WAIT_STATE_BLOCKED);
     
+    int z;
+    tic(&timer_1);
+    for(z=0;z<ITER;z++)
+    {
+ 
+        /*
+        * Obtain the current queue write index.
+        */
+        uint64_t index = hsa_queue_load_write_index_relaxed(queue);
+
+        /*
+        * Write the aql packet at the calculated queue index address.
+        */
+        const uint32_t queueMask = queue->size - 1;
+        hsa_kernel_dispatch_packet_t* dispatch_packet = &(((hsa_kernel_dispatch_packet_t*)(queue->base_address))[index&queueMask]);
+
+        dispatch_packet->header |= HSA_FENCE_SCOPE_SYSTEM << HSA_PACKET_HEADER_ACQUIRE_FENCE_SCOPE;
+        dispatch_packet->header |= HSA_FENCE_SCOPE_SYSTEM << HSA_PACKET_HEADER_RELEASE_FENCE_SCOPE;
+        dispatch_packet->setup  |= 1 << HSA_KERNEL_DISPATCH_PACKET_SETUP_DIMENSIONS;
+        dispatch_packet->workgroup_size_x = (uint16_t)LOCAL_SIZE;
+        dispatch_packet->workgroup_size_y = (uint16_t)1;
+        dispatch_packet->workgroup_size_z = (uint16_t)1;
+        dispatch_packet->grid_size_x = (uint32_t) (GLOBAL_SIZE);
+        dispatch_packet->grid_size_y = 1;
+        dispatch_packet->grid_size_z = 1;
+        dispatch_packet->completion_signal = signal;
+        dispatch_packet->kernel_object = kernel_object;
+        dispatch_packet->kernarg_address = (void*) kernarg_address;
+        dispatch_packet->private_segment_size = private_segment_size;
+        dispatch_packet->group_segment_size = group_segment_size;
+        __atomic_store_n((uint8_t*)(&dispatch_packet->header), (uint8_t)HSA_PACKET_TYPE_KERNEL_DISPATCH, __ATOMIC_RELEASE);
+
+        /*
+        * Increment the write index and ring the doorbell to dispatch the kernel.
+        */
+        hsa_queue_store_write_index_relaxed(queue, index+1);
+        hsa_signal_store_relaxed(queue->doorbell_signal, index);
+        check(Dispatching the kernel, err);
+
+        /*
+        * Wait on the dispatch completion signal until the kernel is finished.
+        */
+        hsa_signal_value_t value = hsa_signal_wait_acquire(signal, HSA_SIGNAL_CONDITION_LT, 1, UINT64_MAX, HSA_WAIT_STATE_BLOCKED);
+    }
     nano = toc("Execution Period", &timer_1, &timer_2);
-	printf("memory size:%d\n",SIZE);
-    printf("op_count:%ld\n",ITER*128*ELEMENT);
-    printf("nanosec/op= %0.3lfns\n",(double)nano/(double)(ITER*128*ELEMENT));
+    printf("enqueue kernel=%d times\nout=%d\n",ITER,out[0]);
+    if(out[0]==ITER)
+        printf("VALID\n");
+    else
+        printf("INVALID\n");
 
-    /*
-     * Validate the data in the output buffer.
-     */
+        /*
+        * Validate the data in the output buffer.
+        */
 
-    int valid=1;
+        int valid=1;
 //    int fail_index=0;
 
 //global_ld
