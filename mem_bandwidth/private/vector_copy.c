@@ -31,7 +31,7 @@
 
 
 #define ITER 10
-#define SIZE 1024
+#define SIZE 512 
 #define ELEMENT SIZE/sizeof(int)
 
 #define GLOBAL_SIZE 1 
@@ -277,8 +277,10 @@ int main(int argc, char **argv)
     /*
      * Set in
      */
+    /*
     for(i=0;i<ELEMENT;i++)
         in[i]=i+1;
+    */
     err=hsa_memory_register(in, SIZE);
     check(Registering argument memory for input parameter, err);
 

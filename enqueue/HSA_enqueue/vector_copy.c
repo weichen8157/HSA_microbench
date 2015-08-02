@@ -327,7 +327,8 @@ int main(int argc, char **argv)
     tic(&timer_1);
     for(z=0;z<ITER;z++)
     {
- 
+        hsa_signal_t signal;
+        err=hsa_signal_create(1, 0, NULL, &signal); 
         /*
         * Obtain the current queue write index.
         */

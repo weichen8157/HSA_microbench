@@ -10,10 +10,10 @@ main()	{
 		/opt/amd/cloc/bin/hsailasm ./vector_copy.hsail -o ./vector_copy.brig
 		./vector_copy >> log
         echo ${file}>>record
-		#grep -r "Execution Period*" log >> record
-        grep -r "memory size*" log >> record
-        grep -r "op_count**" log >> record
-        grep -r "nano*" log >> record
+		grep -r "Execution Period*" log >> record
+        #grep -r "memory size*" log >> record
+        #grep -r "op_count**" log >> record
+        #grep -r "nano*" log >> record
         sleep 1
         echo -e "" >> record
 		rm vector_copy.hsail

@@ -1,10 +1,10 @@
 __kernel void vector_copy(__global int * in, __global int *out,const int iter,const int element) {
     
     
-    __private int array[256];
+    __private int array[128];
     int i,j,temp=1; 
     for (i = 0; i < iter; i++){
-        for(j = 0;j<256;j++) {
+        for(j = 0;j<128;j++) {
                 temp = array[j];
                 temp = array[j];
                 temp = array[j];
