@@ -1,0 +1,927 @@
+module &_tmp_cloc14587_16_reduce_opt_bc:1:0:$full:$large:$default;
+extension "amd:gcn";
+extension "IMAGE";
+
+decl prog function &abort()();
+
+prog kernel &__OpenCL_vector_copy_kernel(
+	kernarg_u64 %__global_offset_0,
+	kernarg_u64 %__global_offset_1,
+	kernarg_u64 %__global_offset_2,
+	kernarg_u64 %__printf_buffer,
+	kernarg_u64 %__vqueue_pointer,
+	kernarg_u64 %__aqlwrap_pointer,
+	kernarg_u64 %in,
+	kernarg_u64 %out,
+	kernarg_u32 %iter,
+	kernarg_u32 %element)
+{
+	pragma "AMD RTI", "ARGSTART:__OpenCL_vector_copy_kernel";
+	pragma "AMD RTI", "version:3:1:104";
+	pragma "AMD RTI", "device:generic";
+	pragma "AMD RTI", "uniqueid:1024";
+	pragma "AMD RTI", "memory:private:0";
+	pragma "AMD RTI", "memory:region:0";
+	pragma "AMD RTI", "memory:local:0";
+	pragma "AMD RTI", "value:__global_offset_0:u64:1:1:0";
+	pragma "AMD RTI", "value:__global_offset_1:u64:1:1:16";
+	pragma "AMD RTI", "value:__global_offset_2:u64:1:1:32";
+	pragma "AMD RTI", "pointer:__printf_buffer:u8:1:1:48:uav:7:1:RW:0:0:0";
+	pragma "AMD RTI", "value:__vqueue_pointer:u64:1:1:64";
+	pragma "AMD RTI", "value:__aqlwrap_pointer:u64:1:1:80";
+	pragma "AMD RTI", "pointer:in:u32:1:1:96:uav:7:4:RW:0:0:0";
+	pragma "AMD RTI", "pointer:out:u32:1:1:112:uav:7:4:RW:0:0:0";
+	pragma "AMD RTI", "value:iter:u32:1:1:128";
+	pragma "AMD RTI", "constarg:8:iter";
+	pragma "AMD RTI", "value:element:u32:1:1:144";
+	pragma "AMD RTI", "constarg:9:element";
+	pragma "AMD RTI", "function:1:0";
+	pragma "AMD RTI", "memory:64bitABI";
+	pragma "AMD RTI", "privateid:8";
+	pragma "AMD RTI", "enqueue_kernel:0";
+	pragma "AMD RTI", "kernel_index:0";
+	pragma "AMD RTI", "reflection:0:size_t";
+	pragma "AMD RTI", "reflection:1:size_t";
+	pragma "AMD RTI", "reflection:2:size_t";
+	pragma "AMD RTI", "reflection:3:size_t";
+	pragma "AMD RTI", "reflection:4:size_t";
+	pragma "AMD RTI", "reflection:5:size_t";
+	pragma "AMD RTI", "reflection:6:int*";
+	pragma "AMD RTI", "reflection:7:int*";
+	pragma "AMD RTI", "reflection:8:int";
+	pragma "AMD RTI", "reflection:9:int";
+	pragma "AMD RTI", "ARGEND:__OpenCL_vector_copy_kernel";
+
+@__OpenCL_vector_copy_kernel_entry:
+	// BB#0:
+	workitemabsid_u32	$s0, 0;
+	cvt_u64_u32	$d2, $s0;
+	ld_kernarg_align(8)_width(all)_u64	$d3, [%__global_offset_0];
+	add_u64	$d0, $d2, $d3;
+	gridsize_u32	$s0, 0;
+	ld_kernarg_align(4)_width(all)_u32	$s2, [%element];
+	cvt_u32_u64	$s1, $d0;
+	div_s32	$s2, $s2, $s0;
+	ld_kernarg_align(8)_width(all)_u64	$d0, [%out];
+	cmp_lt_b1_s32	$c0, $s2, 1;
+	cbr_b1	$c0, @BB0_5;
+	// BB#1:                                // %.lr.ph66
+	ld_kernarg_align(8)_width(all)_u64	$d1, [%in];
+	add_u64	$d2, $d3, $d2;
+	cvt_u32_u64	$s3, $d2;
+	mul_u32	$s3, $s2, $s3;
+	cvt_s64_s32	$d2, $s1;
+	shl_u64	$d2, $d2, 2;
+	add_u64	$d2, $d0, $d2;
+	ld_global_align(4)_u32	$s4, [$d2];
+
+@BB0_2:
+	cvt_s64_s32	$d3, $s3;
+	shl_u64	$d3, $d3, 2;
+	add_u64	$d3, $d1, $d3;
+	ld_global_align(4)_u32	$s5, [$d3];
+	cmp_ge_b1_s32	$c0, $s4, $s5;
+	cbr_b1	$c0, @BB0_4;
+	// BB#3:
+	st_global_align(4)_u32	$s5, [$d2];
+	mov_b32	$s4, $s5;
+
+@BB0_4:
+	add_u32	$s3, $s3, 1;
+	add_u32	$s2, $s2, 4294967295;
+	cmp_ne_b1_s32	$c0, $s2, 0;
+	cbr_b1	$c0, @BB0_2;
+
+@BB0_5:
+	// %._crit_edge67
+	barrier;
+	cmp_gt_b1_u32	$c0, $s1, 7;
+	cbr_b1	$c0, @BB0_55;
+	// BB#6:                                // %._crit_edge67
+	cmp_gt_b1_u32	$c1, $s1, 3;
+	cbr_b1	$c1, @BB0_38;
+	// BB#7:                                // %._crit_edge67
+	cmp_gt_b1_u32	$c1, $s1, 1;
+	cbr_b1	$c1, @BB0_28;
+	// BB#8:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c1, $s1, 0;
+	cbr_b1	$c1, @BB0_9;
+	// BB#146:                                // %.preheader60
+	cmp_lt_b1_s32	$c0, $s0, 1;
+	cbr_b1	$c0, @BB0_74;
+	// BB#147:                                // %.lr.ph62
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d1, $d1, 2;
+	add_u64	$d2, $d1, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d2+4];
+	mov_b32	$s2, 0;
+	add_u64	$d1, $d0, $d1;
+	mov_b64	$d2, $d0;
+
+@BB0_148:
+	ld_global_align(4)_width(all)_u32	$s4, [$d2];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_150;
+	// BB#149:
+	st_global_align(4)_u32	$s4, [$d1+4];
+	mov_b32	$s3, $s4;
+
+@BB0_150:
+	add_u64	$d2, $d2, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_148;
+	br	@BB0_74;
+
+@BB0_38:
+	// %._crit_edge67
+	cmp_gt_b1_u32	$c1, $s1, 5;
+	cbr_b1	$c1, @BB0_48;
+	br	@BB0_39;
+
+@BB0_28:
+	// %._crit_edge67
+	cmp_eq_b1_s32	$c1, $s1, 2;
+	cbr_b1	$c1, @BB0_170;
+	// BB#29:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c1, $s1, 3;
+	cbr_b1	$c1, @BB0_74;
+	br	@BB0_30;
+
+@BB0_9:
+	// %._crit_edge67
+	cmp_ne_b1_s32	$c1, $s1, 1;
+	cbr_b1	$c1, @BB0_74;
+	// BB#10:                                // %.preheader56
+	cmp_lt_b1_s32	$c1, $s0, 2;
+	cbr_b1	$c1, @BB0_74;
+	// BB#11:                                // %.lr.ph58
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+8];
+	add_u64	$d1, $d0, 4;
+	mov_b32	$s2, 1;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_12:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c1, $s3, $s4;
+	cbr_b1	$c1, @BB0_14;
+	// BB#13:
+	st_global_align(4)_u32	$s4, [$d2+8];
+	mov_b32	$s3, $s4;
+
+@BB0_14:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c1, $s2, $s0;
+	cbr_b1	$c1, @BB0_12;
+	// BB#15:                                // %._crit_edge59
+	cmp_gt_b1_u32	$c1, $s1, 8;
+	cbr_b1	$c1, @BB0_168;
+	// BB#16:                                // %._crit_edge59
+	cmp_gt_b1_u32	$c1, $s1, 4;
+	cbr_b1	$c1, @BB0_151;
+	// BB#17:                                // %._crit_edge59
+	cmp_eq_b1_s32	$c1, $s1, 2;
+	cbr_b1	$c1, @BB0_170;
+	// BB#18:                                // %._crit_edge59
+	cmp_eq_b1_s32	$c1, $s1, 3;
+	cbr_b1	$c1, @BB0_30;
+	// BB#19:                                // %._crit_edge59
+	cmp_ne_b1_s32	$c1, $s1, 4;
+	cbr_b1	$c1, @BB0_74;
+	br	@BB0_20;
+
+@BB0_170:
+	// %.preheader52
+	cmp_lt_b1_s32	$c1, $s0, 3;
+	cbr_b1	$c1, @BB0_74;
+	// BB#171:                                // %.lr.ph54
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+12];
+	add_u64	$d1, $d0, 8;
+	mov_b32	$s2, 2;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_172:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c1, $s3, $s4;
+	cbr_b1	$c1, @BB0_174;
+	// BB#173:
+	st_global_align(4)_u32	$s4, [$d2+12];
+	mov_b32	$s3, $s4;
+
+@BB0_174:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c1, $s2, $s0;
+	cbr_b1	$c1, @BB0_172;
+	// BB#175:                                // %._crit_edge55
+	cmp_gt_b1_u32	$c1, $s1, 8;
+	cbr_b1	$c1, @BB0_168;
+	// BB#176:                                // %._crit_edge55
+	cmp_gt_b1_u32	$c1, $s1, 5;
+	cbr_b1	$c1, @BB0_178;
+	// BB#177:                                // %._crit_edge55
+	cmp_eq_b1_s32	$c1, $s1, 3;
+	cbr_b1	$c1, @BB0_30;
+
+@BB0_39:
+	// %._crit_edge67
+	cmp_eq_b1_s32	$c1, $s1, 4;
+	cbr_b1	$c1, @BB0_20;
+	// BB#40:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c1, $s1, 5;
+	cbr_b1	$c1, @BB0_74;
+	br	@BB0_41;
+
+@BB0_30:
+	// %.preheader48
+	cmp_lt_b1_s32	$c1, $s0, 4;
+	cbr_b1	$c1, @BB0_74;
+	// BB#31:                                // %.lr.ph50
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+16];
+	add_u64	$d1, $d0, 12;
+	mov_b32	$s2, 3;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_32:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c1, $s3, $s4;
+	cbr_b1	$c1, @BB0_34;
+	// BB#33:
+	st_global_align(4)_u32	$s4, [$d2+16];
+	mov_b32	$s3, $s4;
+
+@BB0_34:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c1, $s2, $s0;
+	cbr_b1	$c1, @BB0_32;
+	// BB#35:                                // %._crit_edge51
+	cmp_gt_b1_u32	$c1, $s1, 9;
+	cbr_b1	$c1, @BB0_64;
+	// BB#36:                                // %._crit_edge51
+	cmp_gt_b1_u32	$c1, $s1, 6;
+	cbr_b1	$c1, @BB0_27;
+	// BB#37:                                // %._crit_edge51
+	cmp_ne_b1_s32	$c1, $s1, 4;
+	cbr_b1	$c1, @BB0_152;
+
+@BB0_20:
+	// %.preheader44
+	cmp_lt_b1_s32	$c1, $s0, 5;
+	cbr_b1	$c1, @BB0_74;
+	// BB#21:                                // %.lr.ph46
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+20];
+	add_u64	$d1, $d0, 16;
+	mov_b32	$s2, 4;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_22:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c1, $s3, $s4;
+	cbr_b1	$c1, @BB0_24;
+	// BB#23:
+	st_global_align(4)_u32	$s4, [$d2+20];
+	mov_b32	$s3, $s4;
+
+@BB0_24:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c1, $s2, $s0;
+	cbr_b1	$c1, @BB0_22;
+	// BB#25:                                // %._crit_edge47
+	cmp_gt_b1_u32	$c1, $s1, 9;
+	cbr_b1	$c1, @BB0_64;
+	// BB#26:                                // %._crit_edge47
+	cmp_le_b1_u32	$c1, $s1, 6;
+	cbr_b1	$c1, @BB0_152;
+
+@BB0_27:
+	// %._crit_edge51
+	cmp_ne_b1_s32	$c0, $s1, 7;
+	cbr_b1	$c0, @BB0_57;
+	br	@BB0_50;
+
+@BB0_178:
+	// %._crit_edge55
+	cmp_ne_b1_s32	$c0, $s1, 6;
+	cbr_b1	$c0, @BB0_161;
+	br	@BB0_154;
+
+@BB0_151:
+	// %._crit_edge59
+	cmp_gt_b1_u32	$c1, $s1, 6;
+	cbr_b1	$c1, @BB0_161;
+
+@BB0_152:
+	// %._crit_edge59
+	cmp_ne_b1_s32	$c1, $s1, 5;
+	cbr_b1	$c1, @BB0_153;
+
+@BB0_41:
+	// %.preheader40
+	cmp_lt_b1_s32	$c1, $s0, 6;
+	cbr_b1	$c1, @BB0_74;
+	// BB#42:                                // %.lr.ph42
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+24];
+	add_u64	$d1, $d0, 20;
+	mov_b32	$s2, 5;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_43:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c1, $s3, $s4;
+	cbr_b1	$c1, @BB0_45;
+	// BB#44:
+	st_global_align(4)_u32	$s4, [$d2+24];
+	mov_b32	$s3, $s4;
+
+@BB0_45:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c1, $s2, $s0;
+	cbr_b1	$c1, @BB0_43;
+	// BB#46:                                // %._crit_edge43
+	cmp_gt_b1_u32	$c1, $s1, 10;
+	cbr_b1	$c1, @BB0_71;
+	// BB#47:                                // %._crit_edge43
+	cbr_b1	$c0, @BB0_179;
+
+@BB0_48:
+	// %._crit_edge67
+	cmp_eq_b1_s32	$c0, $s1, 6;
+	cbr_b1	$c0, @BB0_154;
+	// BB#49:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c0, $s1, 7;
+	cbr_b1	$c0, @BB0_74;
+	br	@BB0_50;
+
+@BB0_153:
+	// %._crit_edge59
+	cmp_ne_b1_s32	$c0, $s1, 6;
+	cbr_b1	$c0, @BB0_74;
+
+@BB0_154:
+	// %.preheader36
+	cmp_lt_b1_s32	$c0, $s0, 7;
+	cbr_b1	$c0, @BB0_74;
+	// BB#155:                                // %.lr.ph38
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+28];
+	add_u64	$d1, $d0, 24;
+	mov_b32	$s2, 6;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_156:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_158;
+	// BB#157:
+	st_global_align(4)_u32	$s4, [$d2+28];
+	mov_b32	$s3, $s4;
+
+@BB0_158:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_156;
+	// BB#159:                                // %._crit_edge39
+	cmp_gt_b1_u32	$c0, $s1, 10;
+	cbr_b1	$c0, @BB0_71;
+	// BB#160:                                // %._crit_edge39
+	cmp_gt_b1_u32	$c0, $s1, 8;
+	cbr_b1	$c0, @BB0_180;
+
+@BB0_161:
+	// %._crit_edge59
+	cmp_ne_b1_s32	$c0, $s1, 7;
+	cbr_b1	$c0, @BB0_162;
+
+@BB0_50:
+	// %.preheader32
+	cmp_lt_b1_s32	$c0, $s0, 8;
+	cbr_b1	$c0, @BB0_74;
+	// BB#51:                                // %.lr.ph34
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+32];
+	add_u64	$d1, $d0, 28;
+	mov_b32	$s2, 7;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_52:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_54;
+	// BB#53:
+	st_global_align(4)_u32	$s4, [$d2+32];
+	mov_b32	$s3, $s4;
+
+@BB0_54:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_52;
+
+@BB0_55:
+	// %._crit_edge67
+	cmp_gt_b1_u32	$c0, $s1, 11;
+	cbr_b1	$c0, @BB0_115;
+	// BB#56:                                // %._crit_edge67
+	cmp_gt_b1_u32	$c0, $s1, 9;
+	cbr_b1	$c0, @BB0_108;
+
+@BB0_57:
+	// %._crit_edge67
+	cmp_eq_b1_s32	$c0, $s1, 8;
+	cbr_b1	$c0, @BB0_163;
+	// BB#58:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c0, $s1, 9;
+	cbr_b1	$c0, @BB0_74;
+	br	@BB0_59;
+
+@BB0_162:
+	// %._crit_edge59
+	cmp_ne_b1_s32	$c0, $s1, 8;
+	cbr_b1	$c0, @BB0_74;
+	br	@BB0_163;
+
+@BB0_179:
+	// %._crit_edge43
+	cmp_eq_b1_s32	$c0, $s1, 8;
+	cbr_b1	$c0, @BB0_163;
+
+@BB0_180:
+	// %._crit_edge43
+	cmp_eq_b1_s32	$c0, $s1, 9;
+	cbr_b1	$c0, @BB0_59;
+	// BB#181:                                // %._crit_edge43
+	cmp_eq_b1_s32	$c0, $s1, 10;
+	cbr_b1	$c0, @BB0_66;
+	br	@BB0_74;
+
+@BB0_163:
+	// %.preheader28
+	cmp_lt_b1_s32	$c0, $s0, 9;
+	cbr_b1	$c0, @BB0_74;
+	// BB#164:                                // %.lr.ph30
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+36];
+	add_u64	$d1, $d0, 32;
+	mov_b32	$s2, 8;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_165:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_167;
+	// BB#166:
+	st_global_align(4)_u32	$s4, [$d2+36];
+	mov_b32	$s3, $s4;
+
+@BB0_167:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_165;
+
+@BB0_168:
+	// %._crit_edge31
+	cmp_gt_b1_u32	$c0, $s1, 11;
+	cbr_b1	$c0, @BB0_115;
+	// BB#169:                                // %._crit_edge31
+	cmp_eq_b1_s32	$c0, $s1, 9;
+	cbr_b1	$c0, @BB0_59;
+
+@BB0_108:
+	// %._crit_edge67
+	cmp_eq_b1_s32	$c0, $s1, 10;
+	cbr_b1	$c0, @BB0_66;
+	// BB#109:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c0, $s1, 11;
+	cbr_b1	$c0, @BB0_74;
+	br	@BB0_110;
+
+@BB0_59:
+	// %.preheader24
+	cmp_lt_b1_s32	$c0, $s0, 10;
+	cbr_b1	$c0, @BB0_74;
+	// BB#60:                                // %.lr.ph26
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+40];
+	add_u64	$d1, $d0, 36;
+	mov_b32	$s2, 9;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_61:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_63;
+	// BB#62:
+	st_global_align(4)_u32	$s4, [$d2+40];
+	mov_b32	$s3, $s4;
+
+@BB0_63:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_61;
+
+@BB0_64:
+	// %._crit_edge27
+	cmp_gt_b1_u32	$c0, $s1, 12;
+	cbr_b1	$c0, @BB0_138;
+	// BB#65:                                // %._crit_edge27
+	cmp_ne_b1_s32	$c0, $s1, 10;
+	cbr_b1	$c0, @BB0_72;
+
+@BB0_66:
+	// %.preheader20
+	cmp_lt_b1_s32	$c0, $s0, 11;
+	cbr_b1	$c0, @BB0_74;
+	// BB#67:                                // %.lr.ph22
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+44];
+	add_u64	$d1, $d0, 40;
+	mov_b32	$s2, 10;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_68:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_70;
+	// BB#69:
+	st_global_align(4)_u32	$s4, [$d2+44];
+	mov_b32	$s3, $s4;
+
+@BB0_70:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_68;
+
+@BB0_71:
+	// %._crit_edge23
+	cmp_gt_b1_u32	$c0, $s1, 12;
+	cbr_b1	$c0, @BB0_138;
+
+@BB0_72:
+	// %._crit_edge51
+	cmp_ne_b1_s32	$c0, $s1, 11;
+	cbr_b1	$c0, @BB0_73;
+
+@BB0_110:
+	// %.preheader16
+	cmp_lt_b1_s32	$c0, $s0, 12;
+	cbr_b1	$c0, @BB0_74;
+	// BB#111:                                // %.lr.ph18
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+48];
+	add_u64	$d1, $d0, 44;
+	mov_b32	$s2, 11;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_112:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_114;
+	// BB#113:
+	st_global_align(4)_u32	$s4, [$d2+48];
+	mov_b32	$s3, $s4;
+
+@BB0_114:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_112;
+
+@BB0_115:
+	// %._crit_edge67
+	cmp_gt_b1_u32	$c0, $s1, 13;
+	cbr_b1	$c0, @BB0_139;
+	// BB#116:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c0, $s1, 12;
+	cbr_b1	$c0, @BB0_124;
+	br	@BB0_117;
+
+@BB0_138:
+	// %._crit_edge51
+	cmp_eq_b1_s32	$c0, $s1, 13;
+	cbr_b1	$c0, @BB0_125;
+
+@BB0_139:
+	// %._crit_edge67
+	cmp_eq_b1_s32	$c0, $s1, 14;
+	cbr_b1	$c0, @BB0_132;
+	// BB#140:                                // %._crit_edge67
+	cmp_ne_b1_s32	$c0, $s1, 15;
+	cbr_b1	$c0, @BB0_74;
+	br	@BB0_141;
+
+@BB0_73:
+	// %._crit_edge51
+	cmp_ne_b1_s32	$c0, $s1, 12;
+	cbr_b1	$c0, @BB0_74;
+
+@BB0_117:
+	// %.preheader12
+	cmp_lt_b1_s32	$c0, $s0, 13;
+	cbr_b1	$c0, @BB0_74;
+	// BB#118:                                // %.lr.ph14
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+52];
+	add_u64	$d1, $d0, 48;
+	mov_b32	$s2, 12;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_119:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_121;
+	// BB#120:
+	st_global_align(4)_u32	$s4, [$d2+52];
+	mov_b32	$s3, $s4;
+
+@BB0_121:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_119;
+	// BB#122:                                // %._crit_edge15
+	cmp_eq_b1_s32	$c0, $s1, 15;
+	cbr_b1	$c0, @BB0_141;
+	// BB#123:                                // %._crit_edge15
+	cmp_eq_b1_s32	$c0, $s1, 14;
+	cbr_b1	$c0, @BB0_132;
+
+@BB0_124:
+	// %._crit_edge15
+	cmp_ne_b1_s32	$c0, $s1, 13;
+	cbr_b1	$c0, @BB0_74;
+
+@BB0_125:
+	// %.preheader8
+	cmp_lt_b1_s32	$c0, $s0, 14;
+	cbr_b1	$c0, @BB0_74;
+	// BB#126:                                // %.lr.ph10
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+56];
+	add_u64	$d1, $d0, 52;
+	mov_b32	$s2, 13;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_127:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_129;
+	// BB#128:
+	st_global_align(4)_u32	$s4, [$d2+56];
+	mov_b32	$s3, $s4;
+
+@BB0_129:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_127;
+	// BB#130:                                // %._crit_edge11
+	cmp_ne_b1_s32	$c0, $s1, 15;
+	cbr_b1	$c0, @BB0_131;
+
+@BB0_141:
+	// %.preheader2
+	cmp_lt_b1_s32	$c0, $s0, 16;
+	cbr_b1	$c0, @BB0_74;
+	br	@BB0_142;
+
+@BB0_131:
+	// %._crit_edge11
+	cmp_ne_b1_s32	$c0, $s1, 14;
+	cbr_b1	$c0, @BB0_74;
+
+@BB0_132:
+	// %.preheader5
+	cmp_lt_b1_s32	$c0, $s0, 15;
+	cbr_b1	$c0, @BB0_74;
+	// BB#133:                                // %.lr.ph7
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+60];
+	add_u64	$d1, $d0, 56;
+	mov_b32	$s2, 14;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_134:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_136;
+	// BB#135:
+	st_global_align(4)_u32	$s4, [$d2+60];
+	mov_b32	$s3, $s4;
+
+@BB0_136:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_134;
+	// BB#137:                                // %._crit_edge
+	cmp_gt_b1_s32	$c0, $s0, 15;
+	cmp_eq_b1_s32	$c1, $s1, 15;
+	and_b1	$c0, $c1, $c0;
+	not_b1	$c0, $c0;
+	cbr_b1	$c0, @BB0_74;
+
+@BB0_142:
+	// %.lr.ph
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s3, [$d1+64];
+	add_u64	$d1, $d0, 60;
+	mov_b32	$s2, 15;
+	add_u64	$d2, $d0, $d2;
+
+@BB0_143:
+	ld_global_align(4)_width(all)_u32	$s4, [$d1];
+	cmp_ge_b1_s32	$c0, $s3, $s4;
+	cbr_b1	$c0, @BB0_145;
+	// BB#144:
+	st_global_align(4)_u32	$s4, [$d2+64];
+	mov_b32	$s3, $s4;
+
+@BB0_145:
+	add_u64	$d1, $d1, 64;
+	add_u32	$s2, $s2, 16;
+	cmp_lt_b1_s32	$c0, $s2, $s0;
+	cbr_b1	$c0, @BB0_143;
+
+@BB0_74:
+	// %._crit_edge63
+	barrier;
+	cmp_ne_b1_s32	$c0, $s1, 16;
+	cbr_b1	$c0, @BB0_107;
+	// BB#75:                                // %.preheader
+	cvt_s64_s32	$d1, $s0;
+	shl_u64	$d2, $d1, 2;
+	add_u64	$d1, $d0, $d2;
+	ld_v2_global_align(4)_width(all)_u32	($s0, $s1), [$d1];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_77;
+	// BB#76:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_77:
+	add_u64	$d0, $d2, $d0;
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+8];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_79;
+	// BB#78:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_79:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+12];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_81;
+	// BB#80:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_81:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+16];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_83;
+	// BB#82:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_83:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+20];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_85;
+	// BB#84:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_85:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+24];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_87;
+	// BB#86:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_87:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+28];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_89;
+	// BB#88:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_89:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+32];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_91;
+	// BB#90:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_91:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+36];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_93;
+	// BB#92:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_93:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+40];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_95;
+	// BB#94:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_95:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+44];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_97;
+	// BB#96:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_97:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+48];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_99;
+	// BB#98:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_99:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+52];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_101;
+	// BB#100:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_101:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+56];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_103;
+	// BB#102:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_103:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+60];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_105;
+	// BB#104:
+	st_global_align(4)_u32	$s1, [$d1];
+	mov_b32	$s0, $s1;
+
+@BB0_105:
+	ld_global_align(4)_width(all)_u32	$s1, [$d0+64];
+	cmp_ge_b1_s32	$c0, $s0, $s1;
+	cbr_b1	$c0, @BB0_107;
+	// BB#106:
+	st_global_align(4)_u32	$s1, [$d1];
+
+@BB0_107:
+	// %.loopexit
+	ret;
+};
