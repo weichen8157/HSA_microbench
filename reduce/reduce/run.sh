@@ -11,7 +11,7 @@ main()	{
 		./vector_copy >> log
         echo ${file}>>record
 		grep -r "Execution Period*" log >> record
-        grep -r "PASS*" log >> record
+        grep -r "FAIL*" log >> record
 		rm vector_copy.hsail
         rm vector_copy.brig
 		rm log

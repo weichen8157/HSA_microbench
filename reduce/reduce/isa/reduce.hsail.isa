@@ -33,60 +33,72 @@ shader main
   v_cmp_lt_i32  s[4:5], s0, 1                           // 000000000024: D1020004 00010200
   s_mov_b64     s[6:7], exec                            // 00000000002C: BE86047E
   s_andn2_b64   exec, s[6:7], s[4:5]                    // 000000000030: 8AFE0406
-  s_cbranch_execz  label_0045                           // 000000000034: BF880037
+  s_cbranch_execz  label_0052                           // 000000000034: BF880044
   s_load_dwordx2  s[4:5], s[2:3], 0x00                  // 000000000038: C0420300
   s_waitcnt     lgkmcnt(0)                              // 00000000003C: BF8C007F
   v_add_i32     v0, s[8:9], v0, s4                      // 000000000040: D24A0800 00000900
-  s_load_dwordx2  s[2:3], s[2:3], 0x0e                  // 000000000048: C041030E
-  v_ashrrev_i32  v1, 31, v0                             // 00000000004C: 3002009F
-  v_mov_b32     v2, v1                                  // 000000000050: 7E040301
-  v_mov_b32     v1, v0                                  // 000000000054: 7E020300
-  v_lshl_b64    v[1:2], v[1:2], 2                       // 000000000058: D2C20001 00010501
-  s_waitcnt     lgkmcnt(0)                              // 000000000060: BF8C007F
-  v_add_i32     v1, s[4:5], s2, v1                      // 000000000064: D24A0401 00020202
-  v_mov_b32     v3, s3                                  // 00000000006C: 7E060203
-  v_addc_u32    v2, vcc, v3, v2, s[4:5]                 // 000000000070: D2506A02 00120503
-  flat_load_dword  v3, v[1:2]                           // 000000000078: DC300000 03000001
-  s_mov_b64     s[4:5], exec                            // 000000000080: BE84047E
-  s_mov_b64     s[8:9], exec                            // 000000000084: BE88047E
-  v_mov_b32     v4, s0                                  // 000000000088: 7E080200
-label_0023:
-  v_add_i32     v5, vcc, v4, v0                         // 00000000008C: 4A0A0104
-  v_ashrrev_i32  v6, 31, v5                             // 000000000090: 300C0A9F
-  v_lshl_b64    v[5:6], v[5:6], 2                       // 000000000094: D2C20005 00010505
-  v_add_i32     v5, s[0:1], s2, v5                      // 00000000009C: D24A0005 00020A02
-  v_mov_b32     v7, s3                                  // 0000000000A4: 7E0E0203
-  v_addc_u32    v6, vcc, v7, v6, s[0:1]                 // 0000000000A8: D2506A06 00020D07
-  flat_load_dword  v5, v[5:6]                           // 0000000000B0: DC300000 05000005
-  s_waitcnt     vmcnt(0) & lgkmcnt(0)                   // 0000000000B8: BF8C0070
-  v_cmp_ge_i32  s[0:1], v3, v5                          // 0000000000BC: D10C0000 00020B03
-  s_mov_b64     s[10:11], exec                          // 0000000000C4: BE8A047E
-  s_andn2_b64   exec, s[10:11], s[0:1]                  // 0000000000C8: 8AFE000A
-  s_cbranch_execz  label_0037                           // 0000000000CC: BF880003
-  flat_store_dword  v[1:2], v5                          // 0000000000D0: DC700000 00000501
-  v_mov_b32     v3, v5                                  // 0000000000D8: 7E060305
-label_0037:
-  s_mov_b64     exec, s[10:11]                          // 0000000000DC: BEFE040A
-  v_lshrrev_b32  v5, 31, v4                             // 0000000000E0: 2C0A089F
-  v_add_i32     v5, vcc, v4, v5                         // 0000000000E4: 4A0A0B04
-  v_ashrrev_i32  v5, 1, v5                              // 0000000000E8: 300A0A81
-  v_cmp_gt_i32  s[0:1], v4, 1                           // 0000000000EC: D1080000 00010304
-  s_mov_b64     s[10:11], exec                          // 0000000000F4: BE8A047E
-  s_andn2_b64   exec, s[10:11], s[0:1]                  // 0000000000F8: 8AFE000A
-  s_cbranch_execz  label_0042                           // 0000000000FC: BF880002
-  s_andn2_b64   s[8:9], s[8:9], exec                    // 000000000100: 8A887E08
-  s_cbranch_scc0  label_0045                            // 000000000104: BF840003
-label_0042:
-  s_and_b64     exec, s[10:11], s[8:9]                  // 000000000108: 87FE080A
-  v_mov_b32     v4, v5                                  // 00000000010C: 7E080305
-  s_branch      label_0023                              // 000000000110: BF82FFDE
-label_0045:
-  s_endpgm                                              // 000000000114: BF810000
+  v_lshlrev_b32  v1, 1, v0                              // 000000000048: 34020081
+  s_load_dwordx2  s[2:3], s[2:3], 0x0e                  // 00000000004C: C041030E
+  v_or_b32      v2, 1, v1                               // 000000000050: 38040281
+  s_mov_b64     s[4:5], exec                            // 000000000054: BE84047E
+  s_mov_b64     s[8:9], exec                            // 000000000058: BE88047E
+  v_mov_b32     v3, s0                                  // 00000000005C: 7E060200
+  s_nop         0x0000                                  // 000000000060: BF800000
+  s_nop         0x0000                                  // 000000000064: BF800000
+label_001A:
+  v_cmp_ge_i32  s[0:1], v0, v3                          // 000000000068: D10C0000 00020700
+  s_mov_b64     s[10:11], exec                          // 000000000070: BE8A047E
+  s_andn2_b64   exec, s[10:11], s[0:1]                  // 000000000074: 8AFE000A
+  s_cbranch_execz  label_0040                           // 000000000078: BF880021
+  v_ashrrev_i32  v4, 31, v2                             // 00000000007C: 3008049F
+  v_mov_b32     v5, v4                                  // 000000000080: 7E0A0304
+  v_mov_b32     v4, v2                                  // 000000000084: 7E080302
+  v_lshl_b64    v[4:5], v[4:5], 2                       // 000000000088: D2C20004 00010504
+  s_waitcnt     lgkmcnt(0)                              // 000000000090: BF8C007F
+  v_add_i32     v4, s[0:1], s2, v4                      // 000000000094: D24A0004 00020802
+  v_mov_b32     v6, s3                                  // 00000000009C: 7E0C0203
+  v_addc_u32    v5, vcc, v6, v5, s[0:1]                 // 0000000000A0: D2506A05 00020B06
+  flat_load_dword  v4, v[4:5]                           // 0000000000A8: DC300000 04000004
+  v_ashrrev_i32  v5, 31, v1                             // 0000000000B0: 300A029F
+  v_mov_b32     v6, v5                                  // 0000000000B4: 7E0C0305
+  v_mov_b32     v5, v1                                  // 0000000000B8: 7E0A0301
+  v_lshl_b64    v[5:6], v[5:6], 2                       // 0000000000BC: D2C20005 00010505
+  v_add_i32     v5, s[0:1], s2, v5                      // 0000000000C4: D24A0005 00020A02
+  v_mov_b32     v7, s3                                  // 0000000000CC: 7E0E0203
+  v_addc_u32    v6, vcc, v7, v6, s[0:1]                 // 0000000000D0: D2506A06 00020D07
+  flat_load_dword  v7, v[5:6]                           // 0000000000D8: DC300000 07000005
+  s_waitcnt     vmcnt(0) & lgkmcnt(0)                   // 0000000000E0: BF8C0070
+  v_cmp_ge_i32  s[0:1], v7, v4                          // 0000000000E4: D10C0000 00020907
+  s_mov_b64     s[12:13], exec                          // 0000000000EC: BE8C047E
+  s_andn2_b64   exec, s[12:13], s[0:1]                  // 0000000000F0: 8AFE000C
+  s_cbranch_execz  label_0040                           // 0000000000F4: BF880002
+  flat_store_dword  v[5:6], v4                          // 0000000000F8: DC700000 00000405
+label_0040:
+  s_mov_b64     exec, s[10:11]                          // 000000000100: BEFE040A
+  v_lshrrev_b32  v4, 31, v3                             // 000000000104: 2C08069F
+  v_add_i32     v4, vcc, v3, v4                         // 000000000108: 4A080903
+  v_ashrrev_i32  v4, 1, v4                              // 00000000010C: 30080881
+  s_waitcnt     vmcnt(0) & lgkmcnt(0)                   // 000000000110: BF8C0070
+  s_barrier                                             // 000000000114: BF8A0000
+  v_lshlrev_b32  v2, 1, v2                              // 000000000118: 34040481
+  v_lshlrev_b32  v1, 1, v1                              // 00000000011C: 34020281
+  v_cmp_gt_i32  s[0:1], v3, 1                           // 000000000120: D1080000 00010303
+  s_mov_b64     s[10:11], exec                          // 000000000128: BE8A047E
+  s_andn2_b64   exec, s[10:11], s[0:1]                  // 00000000012C: 8AFE000A
+  s_cbranch_execz  label_004F                           // 000000000130: BF880002
+  s_andn2_b64   s[8:9], s[8:9], exec                    // 000000000134: 8A887E08
+  s_cbranch_scc0  label_0052                            // 000000000138: BF840003
+label_004F:
+  s_and_b64     exec, s[10:11], s[8:9]                  // 00000000013C: 87FE080A
+  v_mov_b32     v3, v4                                  // 000000000140: 7E060304
+  s_branch      label_001A                              // 000000000144: BF82FFC8
+label_0052:
+  s_endpgm                                              // 000000000148: BF810000
 end
 
 ; ----------------- CS Data ------------------------
 
-codeLenInByte        = 536 bytes;
+codeLenInByte        = 588 bytes;
 objectHeaderByteSize = 256 bytes;
 
 ; launchModeFlags    = 0x00000200
@@ -95,7 +107,7 @@ isAql                = TRUE;
 userElementCount     = 0;
 extUserElementCount  = 0;
 NumVgprs             = 8;
-NumSgprs             = 14;
+NumSgprs             = 16;
 FloatMode            = 192;
 IeeeMode             = 1;
 FlatPtr32            = 0;
@@ -136,8 +148,8 @@ enable_sgpr_kernarg_segment_ptr                = TRUE
 private_element_size                           = DWORD (4 bytes)
 is_ptr64                                       = TRUE
 gds_segment_byte_size                          = 0
-kernarg_segment_byte_size                      = 72
-wavefront_sgpr_count                           = 14
+kernarg_segment_byte_size                      = 80
+wavefront_sgpr_count                           = 16
 workitem_vgpr_count                            = 8
 kernarg_segment_alignment                      = 3
 wavefront_size                                 = 6

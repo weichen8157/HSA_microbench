@@ -31,11 +31,11 @@
 
 
 #define ITER 1
-#define SIZE 64*1024
+#define SIZE 1024*1024*64
 #define ELEMENT SIZE/sizeof(int)
 
 #define GLOBAL_SIZE ELEMENT/2
-#define LOCAL_SIZE 256 
+#define LOCAL_SIZE 512
 
 static inline void tic(struct timespec *t1)
 {
@@ -269,15 +269,19 @@ int main(int argc, char **argv)
      * Allocate and initialize the kernel arguments and data.
      */
     int* in=(int*)malloc(SIZE);
+   int* out=(int*)malloc(SIZE);
+ int* gg=(int*)malloc(SIZE);
+
     int i;
     for(i=0;i<ELEMENT;i++)
-        in[i]=(rand()%50000+1);
+    {
+        out[i]=in[i]=(rand()%50000+1);
+        if(out[i]!=in[i])
+            return -1;
+    }
     err=hsa_memory_register(in, SIZE);
     check(Registering argument memory for input parameter, err);
 
-    int* out=(int*)malloc(SIZE);
-    out = in ; 
-    //memset(out, 0, SIZE);
     err=hsa_memory_register(out, SIZE);
     check(Registering argument memory for output parameter, err);
     
@@ -295,12 +299,14 @@ int main(int argc, char **argv)
 	uint64_t aqlwrap_pointer;
         void* in;
         void* out;
+        void* gg;
         int iter;
         int element;
     } args;
     memset(&args, 0, sizeof(args));
     args.in=in;
     args.out=out;
+    args.gg=gg;
     args.element=element;
     args.iter=iter;
 
@@ -365,16 +371,16 @@ int main(int argc, char **argv)
      * Validate the data in the output buffer.
      */
     int temp = 0;
+    int git;
     for(i=0;i<element;i++)
     {
         if(temp<in[i])
             temp = in[i];
+        if(out[i]==49998)
+            git =  i ; 
     }
-
     if(temp==out[0])
-        printf("PASS \n");
-    else 
-        printf("FAIL out=%d in=%d \n",out[GLOBAL_SIZE],temp);
+        printf("FAIL out=%d,%d,%d,%d,%d,%d,%d,%d,i=%d in=%d \n",out[0],out[1],out[2],out[3],out[4],out[5],out[6],out[7],git,temp);
 
 	
     /*
