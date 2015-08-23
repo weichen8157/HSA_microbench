@@ -15,22 +15,22 @@ Please make sure you have set up the HSA environment before using this sample.
 
 #Result
 * See the picture in dir. 
-1. HSA_enqueue 1
+1. HSA_enqueue  
     `no_branch` for empty kernel.  
     `vector_copy` for simple kernel just like vector_copy.(To ensure result is accurate)  
 ![Sample Image](/HSA_enqueue.png?raw=true "Sample Image")  
-2. SNACK_enqueue 2
+2. SNACK_enqueue  
     `no_branch` and  `vector_copy` are the same function with HSA_enqueue.  
 ![Sample Image](/SNACK_enqueue.png?raw=true "Sample Image")  
-3. Memory_bandwidth 3
+3. Memory_bandwidth  
     `const` and `global_ld` are not make sense.  
     Private segment is not support in HSA runtime yet.  
 ![Sample Image](/mem_bandwidth.png?raw=true "Sample Image")  
-4. branch 4
+4. branch  
     Here is micro-bench for branch penalty.  
     Penalty is almost linear.  
 ![Sample Image](/branch.png?raw=true "Sample Image")  
-5. reduce 5
+5. reduce  
     We use a simple exaple `find max` to test reduce.   
 ![Sample Image](/reduce.png?raw=true "Sample Image")  
 
