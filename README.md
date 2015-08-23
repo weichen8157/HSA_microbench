@@ -1,6 +1,10 @@
 # Introduction
 This is a micro-benchmark for HSA platform.
 
+# Pre-requests
+This sample is modified from the original [CLOC](https://github.com/HSAFoundation/CLOC) sample code.
+Please make sure you have set up the HSA environment before using this sample.
+
 #Execute
 1. Run `run.sh` in dir.
 
@@ -11,6 +15,11 @@ This is a micro-benchmark for HSA platform.
 
 #Result
 * See the picture in dir. 
+![Sample Image](/HSA_enqueue.png?raw=true "Sample Image")
+![Sample Image](/SNACK_enqueue.png?raw=true "Sample Image")
+![Sample Image](/mem_bandwidth.png?raw=true "Sample Image")
+![Sample Image](/branch.png?raw=true "Sample Image")
+![Sample Image](/reduce.png?raw=true "Sample Image")
 
 #Author
 NTU PASLAB
