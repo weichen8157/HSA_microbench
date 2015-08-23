@@ -15,8 +15,9 @@ main()	{
         echo ${file}>>record
 		grep -r "Execution Period*" log >> record
         grep -r "enqueue kernel=*" log >> record
-        grep -r "out=*" log >> record
-        grep -r "*VALID*" log >> record
+        grep -r "ns/enqueue*" log >> record
+        grep -r "PASS" log >> record
+        grep -r "INVALID*" log >> record
 
         sleep 1
         echo -e "" >> record

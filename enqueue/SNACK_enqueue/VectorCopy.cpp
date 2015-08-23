@@ -47,11 +47,13 @@ tic(&timer_1);
     }
 nano = toc("Execution Period", &timer_1, &timer_2);
 
-    printf("enqueue kernel=%d times\nout=%d\n",ITER,out[0]);
+    printf("enqueue kernel=%d times out=%d\n",ITER,out[0]);
+    printf("ns/enqueue=%.0fns\n",nano/ITER);
+
     if(out[0]==ITER)
-         printf("VALID\n");
+         printf("PASS \n");
     else
-         printf("INVALID\n");
+         printf("INVALID out = %d \n",out[0]);
 
 
 /*

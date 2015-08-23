@@ -369,11 +369,13 @@ int main(int argc, char **argv)
         hsa_signal_value_t value = hsa_signal_wait_acquire(signal, HSA_SIGNAL_CONDITION_LT, 1, UINT64_MAX, HSA_WAIT_STATE_BLOCKED);
     }
     nano = toc("Execution Period", &timer_1, &timer_2);
-    printf("enqueue kernel=%d times\nout=%d\n",ITER,out[0]);
+    printf("enqueue kernel=%d times \n",ITER);
+    printf("ns/enqueue:%.0fns\n",nano/ITER);
+
     if(out[0]==ITER)
-        printf("VALID\n");
+        printf("PASS\n");
     else
-        printf("INVALID\n");
+        printf("INVALID out=%d\n",out[0]);
 
         /*
         * Validate the data in the output buffer.
