@@ -8,9 +8,10 @@ main()	{
 	for file in ${FILES};do
 		cp ${TEST_SET}/${file} ./vector_copy.hsail
 		/opt/amd/cloc/bin/hsailasm ./vector_copy.hsail -o ./vector_copy.brig
-		./vector_copy >> log
+		./reduce >> log
         echo ${file}>>record
 		grep -r "Execution Period*" log >> record
+		grep -r "PASS*" log >> record
         grep -r "FAIL*" log >> record
 		rm vector_copy.hsail
         rm vector_copy.brig

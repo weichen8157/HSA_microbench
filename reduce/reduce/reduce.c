@@ -376,11 +376,11 @@ int main(int argc, char **argv)
     {
         if(temp<in[i])
             temp = in[i];
-        if(out[i]==49998)
-            git =  i ; 
     }
     if(temp==out[0])
-        printf("FAIL out=%d,%d,%d,%d,%d,%d,%d,%d,i=%d in=%d \n",out[0],out[1],out[2],out[3],out[4],out[5],out[6],out[7],git,temp);
+        printf("PASS\n");
+    else
+        printf("FAIL out=%d,in=%d \n",out[0],temp);
 
 	
     /*

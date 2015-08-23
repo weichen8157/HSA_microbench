@@ -6,7 +6,7 @@ ifndef HSA_LLVM_PATH
 	HSA_LLVM_PATH=/opt/amd/cloc/bin
 endif
 
-TEST_NAME=vector_copy
+TEST_NAME=constant
 LFLAGS= -g  -Wl,--unresolved-symbols=ignore-in-shared-libs
 INCS = -I $(HSA_RUNTIME_PATH)/include
 C_FILES := $(wildcard *.c)
