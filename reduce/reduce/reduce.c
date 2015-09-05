@@ -31,7 +31,7 @@
 
 
 #define ITER 1
-#define SIZE 1024*1024*64
+#define SIZE 1024*1024*1024
 #define ELEMENT SIZE/sizeof(int)
 
 #define GLOBAL_SIZE ELEMENT/2
@@ -135,7 +135,7 @@ static hsa_status_t get_kernarg_memory_region(hsa_region_t region, void* data) {
 
 int main(int argc, char **argv)
 {
-    struct timespec timer_1, timer_2;
+    struct timespec timer_1, timer_2,timer_3,timer_4;
 
     hsa_status_t err;
 
@@ -366,17 +366,19 @@ int main(int argc, char **argv)
      * Wait on the dispatch completion signal until the kernel is finished.
      */
     hsa_signal_value_t value = hsa_signal_wait_acquire(signal, HSA_SIGNAL_CONDITION_LT, 1, UINT64_MAX, HSA_WAIT_STATE_BLOCKED);
-    toc("Execution Period", &timer_1, &timer_2);
+    toc("HSA execution Period", &timer_1, &timer_2);
     /*
      * Validate the data in the output buffer.
      */
     int temp = 0;
     int git;
+    tic(&timer_3);
     for(i=0;i<element;i++)
     {
         if(temp<in[i])
             temp = in[i];
     }
+     toc("CPU execution Period", &timer_3, &timer_4);
     if(temp==out[0])
         printf("PASS\n");
     else

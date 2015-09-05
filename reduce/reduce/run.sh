@@ -10,7 +10,8 @@ main()	{
 		/opt/amd/cloc/bin/hsailasm ./vector_copy.hsail -o ./vector_copy.brig
 		./reduce >> log
         echo ${file}>>record
-		grep -r "Execution Period*" log >> record
+		grep -r "HSA execution Period*" log >> record
+        grep -r "CPU execution Period*" log >> record
 		grep -r "PASS*" log >> record
         grep -r "FAIL*" log >> record
 		rm vector_copy.hsail

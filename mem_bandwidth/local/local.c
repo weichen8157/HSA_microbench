@@ -369,8 +369,7 @@ int main(int argc, char **argv)
     nano = toc("Execution Period", &timer_1, &timer_2);
 	printf("memory size:%d\n",SIZE);
     printf("op_count:%ld\n",ITER*128*ELEMENT);
-    printf("nanosec/op= %0.3lfns\n",(double)nano/(double)(ITER*128*ELEMENT));
-     
+    printf("%0.3lfGB/s\n",(double)(ITER*128*SIZE)/(double)nano); 
     /*
      * Validate the data in the output buffer.
      */
